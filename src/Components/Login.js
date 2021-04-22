@@ -6,28 +6,10 @@ function Login() {
   const [aadhar, setAadhar] = useState("");
   const [password, setPassword] = useState("");
   const [data, setData] = useState([]);
-
+  const [message, setMessage] = useState("");
   let history = useHistory();
-
-  // useEffect(() => {
-  //   return db.collection("users").onSnapshot((snapshot) => {
-  //     setData(snapshot.docs.map((doc) => doc.data()));
-  //   });
-  // }, []);
-
-  // const handleSubmit = () => {
-  //   {
-  //     data.map((data) => {
-  //       if (data.aadhar === aadhar && data.password === password) {
-  //         console.log("succcess");
-  //         history.push("/voting");
-  //       } else {
-  //         console.log("unsuccess");
-  //       }
-  //       return alert("done");
-  //     });
-  //   }
-  // };
+  let pass;
+  let aadh;
   useEffect(() => {
     db.collection("users")
       .where("aadhar", "==", aadhar)
@@ -35,7 +17,6 @@ function Login() {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
           setData(querySnapshot.docs.map((doc) => doc.data()));
           console.log(doc.id, " => ", doc.data());
         });
@@ -43,30 +24,34 @@ function Login() {
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
-    return () => {};
   }, [aadhar, password]);
 
-  const handleSubmit = () => {
-    if (data.exist) {
-      if (data.aadhar === aadhar && data.password === password) {
-        console.log("succcess");
+  function handleSubmit() {
+    if (aadh === aadhar) {
+      if (pass === password) {
+        console.log("login success");
         history.push("/voting");
-      } else {
-        console.log("unsuccess");
       }
     } else {
-      console.log("wrong cred");
+      setMessage("Wrong Login crediential");
     }
+  }
+  {
+    data.map((doc) => {
+      pass = doc.password;
+      aadh = doc.aadhar;
 
-    // console.log(data.aadhar);
-  };
+      return console.log("yes");
+    });
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="">Enter Aadhar Number</label>
         <input
           type="text"
-          value={aadhar}
+          // value={aadhar}
           placeholder="Aadhar Number"
           onChange={(e) => setAadhar(e.target.value)}
         />
@@ -75,12 +60,13 @@ function Login() {
         <label htmlFor="">Enter Password</label>
         <input
           type="password"
-          value={password}
+          // value={password}
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button>Login</button>
+      <label>{message}</label>
+      <button className="button2">Login</button>
     </form>
   );
 }

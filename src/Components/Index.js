@@ -4,8 +4,6 @@ import "./Index.css";
 import { Link } from "react-router-dom";
 
 function Index() {
-  // const handleLogin = () => {};
-  // const handleRagister = () => {};
   return (
     <div className="container">
       <img
@@ -14,10 +12,14 @@ function Index() {
       />
       <h3>Welcome to Aadhaar-Voting</h3>
       <Link to="/login">
-        <button>Vote Here!</button>
+        <button className="button1" type="submit">
+          Vote Here
+        </button>
       </Link>
       <Link to="/ragister">
-        <button>Ragister Youself</button>
+        <button className="button1" type="submit">
+          Ragister Youself
+        </button>
       </Link>
     </div>
   );
