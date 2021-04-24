@@ -54,24 +54,20 @@ function Login() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Enter Aadhar Number</label>
-        <input
-          type="text"
-          value={aadhar}
-          placeholder="Aadhar Number"
-          onChange={(e) => setAadhar(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Enter Password</label>
-        <input
-          type="password"
-          value={password}
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
+      <label>Enter Aadhar Number</label>
+      <input
+        type="text"
+        value={aadhar}
+        placeholder="Aadhar Number"
+        onChange={(e) => setAadhar(e.target.value)}
+      />
+      <label>Enter Password</label>
+      <input
+        type="password"
+        value={password}
+        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <label style={{ color: "red", fontSize: "x-large" }}>{message}</label>
       <button className="button2">Login</button>
     </form>

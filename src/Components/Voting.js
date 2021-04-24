@@ -3,12 +3,10 @@ import { db } from "../firebase";
 import "./Voting.css";
 function Voting() {
   const [data, setData] = useState([]);
+  // const [target, setTarget] = useState();
 
   useEffect(() => {
     document.title = "Voting";
-  }, []);
-
-  useEffect(() => {
     db.collection("party")
       .get()
       .then((querySnapshot) => {
@@ -18,9 +16,20 @@ function Voting() {
       });
     return () => {};
   }, []);
+  // async function handleOnclick(doc) {
+  //   setTarget(doc.id);
+  //   console.log(doc.id);
+  //   try {
+  //     await db.collection("party").where("id", "==", target).set({
+  //       votes: 2,
+  //     });
+  //   } catch (error) {
+  //     console.log("wrong", error);
+  //   }
+  // }
 
   return (
-    <div className="container">
+    <div className="container-voting">
       <table>
         <thead>
           <tr>
@@ -32,7 +41,7 @@ function Voting() {
         </thead>
         {data.map((doc) => {
           return (
-            <tbody key={doc._id}>
+            <tbody key={doc.id}>
               <tr>
                 <td>
                   <img
@@ -47,7 +56,28 @@ function Voting() {
                 </td>
                 <td>{doc.party_Name}</td>
                 <td>{doc.candidate_name}</td>
-                <button className="button3">Vote</button>
+                <td>
+                  <button
+                    // onClick={async () => {
+                    //   try {
+                    //     await db
+                    //       .collection("party")
+                    //       .doc("doc/" + doc.id)
+                    //       // .where("id", "==", doc.id)
+                    //       .update({
+                    //         votes: doc.votes + 1,
+                    //       });
+                    //   } catch (error) {
+                    //     // console.log("wrong", error);
+                    //     console.log(doc.id);
+                    //     console.log(doc);
+                    //   }
+                    // }}
+                    className="button3"
+                  >
+                    Vote
+                  </button>
+                </td>
               </tr>
             </tbody>
           );
