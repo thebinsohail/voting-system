@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Ragister.css";
 import { db } from "../firebase";
 import { useHistory } from "react-router-dom";
+import doesAadharExist from "../Services/doesAadharExist";
 
 function Ragister() {
   const [firstName, setFirstName] = useState("");
@@ -10,31 +11,55 @@ function Ragister() {
   const [gender, setGender] = useState("");
   const [aadhar, setAadhar] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   let history = useHistory();
-  const handleSubmit = (e) => {
+  const isInvalid =
+    firstName === "" ||
+    lastName === "" ||
+    dob === "" ||
+    gender === "" ||
+    aadhar === "" ||
+    password === "";
+
+  useEffect(() => {
+    document.title = "Ragister";
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    db.collection("users")
-      .add({
-        firstName,
-        lastName,
-        dob,
-        gender,
-        aadhar,
-        password,
-      })
-      .then(() => {
-        alert("Your message has been submitted👍");
-        history.push("/login");
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    if (!isInvalid) {
+      const aadharExists = await doesAadharExist(aadhar);
+      if (!aadharExists.length) {
+        try {
+          db.collection("users")
+            .add({
+              firstName,
+              lastName,
+              dob,
+              gender,
+              aadhar,
+              password,
+            })
+            .then(() => {
+              alert("Ragistered Successfully👍");
+              history.push("/login");
+            });
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        setError("User Exist");
+      }
+    } else {
+      setError("Fields Are Empty");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <label style={{ color: "red", fontSize: "x-large" }}>{error}</label>
       <label>Enter First Name</label>
       <input
         type="text"

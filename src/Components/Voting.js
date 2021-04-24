@@ -5,6 +5,10 @@ function Voting() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    document.title = "Voting";
+  }, []);
+
+  useEffect(() => {
     db.collection("party")
       .get()
       .then((querySnapshot) => {
@@ -28,7 +32,7 @@ function Voting() {
         </thead>
         {data.map((doc) => {
           return (
-            <tbody>
+            <tbody key={doc._id}>
               <tr>
                 <td>
                   <img

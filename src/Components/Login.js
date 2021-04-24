@@ -7,65 +7,72 @@ function Login() {
   const [password, setPassword] = useState("");
   const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
-  let history = useHistory();
+  // const [user, setUser] = useState(false);
+
+  const history = useHistory();
   let pass;
   let aadh;
-  useEffect(() => {
-    db.collection("users")
-      .where("aadhar", "==", aadhar)
-      .where("password", "==", password)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          setData(querySnapshot.docs.map((doc) => doc.data()));
-          console.log(doc.id, " => ", doc.data());
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
-  }, [aadhar, password]);
 
-  function handleSubmit() {
-    if (aadh === aadhar) {
-      if (pass === password) {
-        console.log("login success");
-        history.push("/voting");
-      }
-    } else {
-      setMessage("Wrong Login crediential");
+  useEffect(() => {
+    document.title = "Login";
+  }, []);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setMessage("");
+
+    try {
+      await db
+        .collection("users")
+        .where("aadhar", "==", aadhar)
+        .where("password", "==", password)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            setData(querySnapshot.docs.map((doc) => doc.data()));
+            console.log(doc.id, " => ", doc.data());
+          });
+        });
+    } catch (error) {
+      setMessage("Something Wrong");
     }
-  }
-  {
+
     data.map((doc) => {
       pass = doc.password;
       aadh = doc.aadhar;
-
-      return console.log("yes");
+      return { pass, aadh };
     });
+
+    if (aadh === aadhar && pass === password) {
+      // setUser(true);
+      history.push("/voting");
+    } else {
+      setMessage("Wrong Login crediential");
+      // setUser(false);
+    }
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="">Enter Aadhar Number</label>
+        <label>Enter Aadhar Number</label>
         <input
           type="text"
-          // value={aadhar}
+          value={aadhar}
           placeholder="Aadhar Number"
           onChange={(e) => setAadhar(e.target.value)}
         />
       </div>
       <div>
-        <label htmlFor="">Enter Password</label>
+        <label>Enter Password</label>
         <input
           type="password"
-          // value={password}
+          value={password}
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <label>{message}</label>
+      <label style={{ color: "red", fontSize: "x-large" }}>{message}</label>
       <button className="button2">Login</button>
     </form>
   );
