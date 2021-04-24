@@ -1,65 +1,79 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase";
+import { firebase } from "../firebase";
 import { useHistory } from "react-router-dom";
 
 function Login() {
-  const [aadhar, setAadhar] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [data, setData] = useState([]);
-  const [message, setMessage] = useState("");
-  // const [user, setUser] = useState(false);
+  const [error, setError] = useState("");
 
   const history = useHistory();
-  let pass;
-  let aadh;
+  const isInvalid = password === "" || email === "";
 
   useEffect(() => {
     document.title = "Login";
   }, []);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setMessage("");
+  const handleLogin = async (event) => {
+    event.preventDefault();
 
-    try {
-      await db
-        .collection("users")
-        .where("aadhar", "==", aadhar)
-        .where("password", "==", password)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            setData(querySnapshot.docs.map((doc) => doc.data()));
-            console.log(doc.id, " => ", doc.data());
-          });
-        });
-    } catch (error) {
-      setMessage("Something Wrong");
-    }
-
-    data.map((doc) => {
-      pass = doc.password;
-      aadh = doc.aadhar;
-      return { pass, aadh };
-    });
-
-    if (aadh === aadhar && pass === password) {
-      // setUser(true);
-      history.push("/voting");
+    if (!isInvalid) {
+      try {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        history.push("/voting");
+      } catch (error) {
+        setEmail("");
+        setPassword("");
+        setError(error.message);
+      }
     } else {
-      setMessage("Wrong Login crediential");
-      // setUser(false);
+      setError("Empty Fields");
     }
-  }
+  };
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   setMessage("");
+
+  //   try {
+  //     await firebase
+  //       .firestore()
+  //       .collection("users")
+  //       .where("aadhar", "==", aadhar)
+  //       .where("password", "==", password)
+  //       .get()
+  //       .then((querySnapshot) => {
+  //         querySnapshot.forEach((doc) => {
+  //           setData(querySnapshot.docs.map((doc) => doc.data()));
+  //           console.log(doc.id, " => ", doc.data());
+  //         });
+  //       });
+  //   } catch (error) {
+  //     setMessage("Something Wrong");
+  //   }
+
+  //   data.map((doc) => {
+  //     pass = doc.password;
+  //     aadh = doc.aadhar;
+  //     return { pass, aadh };
+  //   });
+
+  //   if (aadh === aadhar && pass === password) {
+  //     // setUser(true);
+  //     history.push("/voting");
+  //   } else {
+  //     setMessage("Wrong Login crediential");
+  //     // setUser(false);
+  //   }
+  // }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Enter Aadhar Number</label>
+    <form onSubmit={handleLogin}>
+      <label>Enter Email Address</label>
       <input
-        type="text"
-        value={aadhar}
-        placeholder="Aadhar Number"
-        onChange={(e) => setAadhar(e.target.value)}
+        type="email"
+        value={email}
+        placeholder=" Email Address"
+        onChange={(e) => setEmail(e.target.value)}
       />
       <label>Enter Password</label>
       <input
@@ -68,7 +82,7 @@ function Login() {
         placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
       />
-      <label style={{ color: "red", fontSize: "x-large" }}>{message}</label>
+      <label style={{ color: "red", fontSize: "x-large" }}>{error}</label>
       <button className="button2">Login</button>
     </form>
   );

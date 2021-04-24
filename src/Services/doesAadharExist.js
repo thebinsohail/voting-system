@@ -1,7 +1,8 @@
-import { db } from "../firebase";
+import { firebase } from "../firebase";
 
 export default async function doesAadharExist(aadhar) {
-  const result = await db
+  const result = await firebase
+    .firestore()
     .collection("users")
     .where("aadhar", "==", aadhar)
     .get();

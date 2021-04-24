@@ -1,8 +1,8 @@
-import firebase from "firebase/app";
+import Firebase from "firebase/app";
 import "firebase/firestore";
-import "firebase/database";
+import "firebase/auth";
 
-var firebaseApp = firebase.initializeApp({
+const config = {
   apiKey: "AIzaSyA0PWZUTbOr8IoUlGx-nDBn1decmFIvqE4",
   authDomain: "voting-system-25f69.firebaseapp.com",
   projectId: "voting-system-25f69",
@@ -10,8 +10,8 @@ var firebaseApp = firebase.initializeApp({
   messagingSenderId: "258118601917",
   appId: "1:258118601917:web:0d3762be67bae4e071bbd4",
   measurementId: "G-VDWPTTHTYE",
-});
+};
+const firebase = Firebase.initializeApp(config);
+const { FieldValue } = Firebase.firestore;
 
-var db = firebaseApp.firestore();
-
-export { db };
+export { firebase, FieldValue };

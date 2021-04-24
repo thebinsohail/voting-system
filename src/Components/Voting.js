@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase";
+import { firebase } from "../firebase";
 import "./Voting.css";
 function Voting() {
   const [data, setData] = useState([]);
@@ -7,7 +7,9 @@ function Voting() {
 
   useEffect(() => {
     document.title = "Voting";
-    db.collection("party")
+    firebase
+      .firestore()
+      .collection("party")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

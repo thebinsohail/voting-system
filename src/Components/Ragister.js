@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Ragister.css";
-import { db } from "../firebase";
+import { firebase } from "../firebase";
 import { useHistory } from "react-router-dom";
 import doesAadharExist from "../Services/doesAadharExist";
 
@@ -10,6 +10,7 @@ function Ragister() {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [aadhar, setAadhar] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -20,6 +21,7 @@ function Ragister() {
     dob === "" ||
     gender === "" ||
     aadhar === "" ||
+    email === "" ||
     password === "";
 
   useEffect(() => {
@@ -28,18 +30,27 @@ function Ragister() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError("");
     if (!isInvalid) {
       const aadharExists = await doesAadharExist(aadhar);
       if (!aadharExists.length) {
         try {
-          db.collection("users")
+          const createdUserResult = await firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password);
+          await createdUserResult.user.updateProfile({
+            displayName: firstName,
+          });
+          await firebase
+            .firestore()
+            .collection("users")
             .add({
               firstName,
               lastName,
               dob,
               gender,
               aadhar,
+              email,
               password,
             })
             .then(() => {
@@ -47,7 +58,7 @@ function Ragister() {
               history.push("/login");
             });
         } catch (error) {
-          console.log(error);
+          setError("At least 6 character password required");
         }
       } else {
         setError("User Exist");
@@ -93,6 +104,13 @@ function Ragister() {
         placeholder="Aadhar Number"
         value={aadhar}
         onChange={(e) => setAadhar(e.target.value)}
+      />
+      <label>Enter Email</label>
+      <input
+        type="email"
+        placeholder="Email Address"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
 
       <label>Enter Password</label>
