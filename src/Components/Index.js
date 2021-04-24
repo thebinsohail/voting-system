@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Index.css";
-
+import UserContext from "../Context/user";
 import { Link } from "react-router-dom";
+import Voting from "./Voting";
 
 function Index() {
+  const { user } = useContext(UserContext);
   return (
     <div className="container">
       <img
@@ -11,12 +13,14 @@ function Index() {
         alt="votinglogo"
       />
       <h3>Welcome to Aadhaar-Voting</h3>
-      <Link to="/login">
+
+      <Link to={user ? "/voting" : "/login"}>
         <button className="button1" type="submit">
           Vote Here
         </button>
       </Link>
-      <Link to="/ragister">
+
+      <Link to="ragister">
         <button className="button1" type="submit">
           Ragister Youself
         </button>
