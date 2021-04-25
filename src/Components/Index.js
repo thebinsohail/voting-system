@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import "./Index.css";
 import UserContext from "../Context/user";
 import { Link } from "react-router-dom";
-import Voting from "./Voting";
 
 function Index() {
   const { user } = useContext(UserContext);
