@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { firebase } from "../firebase";
 import { useHistory } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -30,41 +31,6 @@ function Login() {
       setError("Empty Fields");
     }
   };
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   setMessage("");
-
-  //   try {
-  //     await firebase
-  //       .firestore()
-  //       .collection("users")
-  //       .where("aadhar", "==", aadhar)
-  //       .where("password", "==", password)
-  //       .get()
-  //       .then((querySnapshot) => {
-  //         querySnapshot.forEach((doc) => {
-  //           setData(querySnapshot.docs.map((doc) => doc.data()));
-  //           console.log(doc.id, " => ", doc.data());
-  //         });
-  //       });
-  //   } catch (error) {
-  //     setMessage("Something Wrong");
-  //   }
-
-  //   data.map((doc) => {
-  //     pass = doc.password;
-  //     aadh = doc.aadhar;
-  //     return { pass, aadh };
-  //   });
-
-  //   if (aadh === aadhar && pass === password) {
-  //     // setUser(true);
-  //     history.push("/voting");
-  //   } else {
-  //     setMessage("Wrong Login crediential");
-  //     // setUser(false);
-  //   }
-  // }
 
   return (
     <form onSubmit={handleLogin}>
