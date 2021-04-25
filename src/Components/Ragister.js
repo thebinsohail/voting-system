@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Ragister.css";
+import "./Style/Ragister.css";
 import { firebase } from "../firebase";
 import { useHistory } from "react-router-dom";
 import doesAadharExist from "../Services/doesAadharExist";

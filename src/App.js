@@ -5,6 +5,7 @@ import useAuthListener from "./Hooks/use-auth-listener";
 import UserContext from "./Context/user";
 import ProtectedRoute from "./Helpers/protected-route";
 
+const Header = lazy(() => import("./Components/Header"));
 const Index = lazy(() => import("./Components/Index"));
 const Login = lazy(() => import("./Components/Login"));
 const Ragister = lazy(() => import("./Components/Ragister"));
@@ -18,6 +19,7 @@ function App() {
       <div className="App">
         <Router>
           <Suspense fallback={<div class="loader"></div>}>
+            <Header />
             <Switch>
               <Route exact path="/">
                 <Index />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { firebase } from "../firebase";
-import "./Voting.css";
+import "./Style/Voting.css";
 function Voting() {
   const [data, setData] = useState([]);
   // const [target, setTarget] = useState();

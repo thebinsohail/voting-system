@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "./Index.css";
+import "./Style/Index.css";
 import UserContext from "../Context/user";
 import { Link } from "react-router-dom";
 
