@@ -1,14 +1,15 @@
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import "./App.css";
-import Index from "./Components/Index";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Login from "./Components/Login";
-import Ragister from "./Components/Ragister";
-import Error from "./Components/Error";
-import Voting from "./Components/Voting";
 import useAuthListener from "./Hooks/use-auth-listener";
 import UserContext from "./Context/user";
 import ProtectedRoute from "./Helpers/protected-route";
+
+const Index = lazy(() => import("./Components/Index"));
+const Login = lazy(() => import("./Components/Login"));
+const Ragister = lazy(() => import("./Components/Ragister"));
+const Error = lazy(() => import("./Components/Error"));
+const Voting = lazy(() => import("./Components/Voting"));
 
 function App() {
   const { user } = useAuthListener();
@@ -16,7 +17,19 @@ function App() {
     <UserContext.Provider value={{ user }}>
       <div className="App">
         <Router>
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense
+            fallback={
+              <div
+                style={{
+                  marginTop: "50px",
+                  color: "red",
+                  fontSize: "x-large",
+                }}
+              >
+                Loading...
+              </div>
+            }
+          >
             <Switch>
               <Route exact path="/">
                 <Index />
