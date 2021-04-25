@@ -23,7 +23,6 @@ function Login() {
         await firebase.auth().signInWithEmailAndPassword(email, password);
         history.push("/voting");
       } catch (error) {
-        setEmail("");
         setPassword("");
         setError(error.message);
       }
