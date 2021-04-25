@@ -17,19 +17,7 @@ function App() {
     <UserContext.Provider value={{ user }}>
       <div className="App">
         <Router>
-          <Suspense
-            fallback={
-              <div
-                style={{
-                  marginTop: "50px",
-                  color: "red",
-                  fontSize: "x-large",
-                }}
-              >
-                Loading...
-              </div>
-            }
-          >
+          <Suspense fallback={<div class="loader"></div>}>
             <Switch>
               <Route exact path="/">
                 <Index />
