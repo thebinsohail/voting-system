@@ -38,6 +38,7 @@ function Ragister() {
           const createdUserResult = await firebase
             .auth()
             .createUserWithEmailAndPassword(email, password);
+          console.log();
           await createdUserResult.user.updateProfile({
             displayName: firstName,
           });
@@ -52,13 +53,14 @@ function Ragister() {
               aadhar,
               email,
               password,
+              uid: createdUserResult.user.uid,
             })
             .then(() => {
               alert("Ragistered Successfully👍");
-              history.push("/login");
+              history.push("/voting");
             });
         } catch (error) {
-          setError("At least 6 character password required");
+          setError("error", { error });
         }
       } else {
         setError("User Exist");
