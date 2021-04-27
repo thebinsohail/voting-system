@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Style/Ragister.css";
 import { firebase } from "../firebase";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import doesAadharExist from "../Services/doesAadharExist";
 
 function Ragister() {
@@ -10,7 +10,7 @@ function Ragister() {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [aadhar, setAadhar] = useState("");
-  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -21,7 +21,7 @@ function Ragister() {
     dob === "" ||
     gender === "" ||
     aadhar === "" ||
-    email === "" ||
+    number === "" ||
     password === "";
 
   useEffect(() => {
@@ -30,6 +30,7 @@ function Ragister() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const email = number + "@gmail.com";
     setError("");
     if (!isInvalid) {
       const aadharExists = await doesAadharExist(aadhar);
@@ -51,16 +52,17 @@ function Ragister() {
               dob,
               gender,
               aadhar,
-              email,
+              number,
               password,
               uid: createdUserResult.user.uid,
+              email: email,
             })
             .then(() => {
               alert("Ragistered Successfully👍");
               history.push("/voting");
             });
         } catch (error) {
-          setError("error", { error });
+          setError("error", error);
         }
       } else {
         setError("User Exist");
@@ -107,12 +109,12 @@ function Ragister() {
         value={aadhar}
         onChange={(e) => setAadhar(e.target.value)}
       />
-      <label>Enter Email</label>
+      <label>Enter Number</label>
       <input
-        type="email"
-        placeholder="Email Address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        type="text"
+        placeholder="Enter Mobile Number"
+        value={number}
+        onChange={(e) => setNumber(e.target.value)}
       />
 
       <label>Enter Password</label>
@@ -126,6 +128,12 @@ function Ragister() {
       <button className="button2" type="submit">
         Submit
       </button>
+      <p>
+        Already have a account?{" "}
+        <Link to="/login">
+          <b>Login</b>
+        </Link>
+      </p>
     </form>
   );
 }

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { firebase } from "../firebase";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import "./Style/Login.css";
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const history = useHistory();
-  const isInvalid = password === "" || email === "";
+  const isInvalid = password === "" || number === "";
 
   useEffect(() => {
     document.title = "Login";
@@ -17,7 +17,7 @@ function Login() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
+    const email = number + "@gmail.com";
     if (!isInvalid) {
       try {
         await firebase.auth().signInWithEmailAndPassword(email, password);
@@ -33,12 +33,12 @@ function Login() {
 
   return (
     <form onSubmit={handleLogin}>
-      <label>Enter Email Address</label>
+      <label>Enter Mobile Number</label>
       <input
-        type="email"
-        value={email}
-        placeholder=" Email Address"
-        onChange={(e) => setEmail(e.target.value)}
+        type="text"
+        value={number}
+        placeholder=" Mobile Number"
+        onChange={(e) => setNumber(e.target.value)}
       />
       <label>Enter Password</label>
       <input
@@ -49,6 +49,12 @@ function Login() {
       />
       <label style={{ color: "red", fontSize: "x-large" }}>{error}</label>
       <button className="button2">Login</button>
+      <p>
+        Don't Have Account?{" "}
+        <Link to="/ragister">
+          <b>Ragister Youreself</b>
+        </Link>
+      </p>
     </form>
   );
 }

@@ -5,7 +5,6 @@ import "./Style/Voting.css";
 function Voting() {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
-  // const [target, setTarget] = useState();
 
   useEffect(() => {
     document.title = "Voting";
