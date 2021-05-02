@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { firebase } from "../firebase";
+import React, { useState } from "react";
+import firebase from "../firebase";
 import doesUidExist from "../Services/doesUidExist";
 import "./Style/Voting.css";
+import usePartyData from "../Hooks/use-party-data";
+
 function Voting() {
-  const [data, setData] = useState([]);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    document.title = "Voting";
-    firebase
-      .firestore()
-      .collection("party")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          setData(querySnapshot.docs.map((doc) => doc.data()));
-        });
-      });
-    return () => {};
-  }, []);
+  const { data } = usePartyData();
 
   return (
     <div className="container-voting">
@@ -52,11 +41,10 @@ function Voting() {
                   <button
                     onClick={async (e) => {
                       e.preventDefault();
-
-                      const uid = firebase.auth().currentUser.uid;
+                      setError("");
+                      const uid = await firebase.auth().currentUser.uid;
                       const om = doesUidExist(uid);
                       if (!(await om).length) {
-                        setError("");
                         await firebase
                           .firestore()
                           .collection("party")

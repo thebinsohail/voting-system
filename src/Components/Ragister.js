@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Style/Ragister.css";
-import { firebase } from "../firebase";
+import firebase from "../firebase";
 import { useHistory, Link } from "react-router-dom";
 import doesAadharExist from "../Services/doesAadharExist";
+import PhoneInput from "react-phone-number-input/input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 function Ragister() {
   const [firstName, setFirstName] = useState("");
@@ -11,18 +13,18 @@ function Ragister() {
   const [gender, setGender] = useState("");
   const [aadhar, setAadhar] = useState("");
   const [number, setNumber] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const [msg, setMsg] = useState("");
   let history = useHistory();
+
   const isInvalid =
     firstName === "" ||
     lastName === "" ||
     dob === "" ||
     gender === "" ||
     aadhar === "" ||
-    number === "" ||
-    password === "";
+    number === "";
 
   useEffect(() => {
     document.title = "Ragister";
@@ -30,42 +32,46 @@ function Ragister() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const email = number + "@gmail.com";
+    // const email = number + "@gmail.com";
     setError("");
+    setMsg("");
     if (!isInvalid) {
-      const aadharExists = await doesAadharExist(aadhar);
-      if (!aadharExists.length) {
-        try {
-          const createdUserResult = await firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password);
-          console.log();
-          await createdUserResult.user.updateProfile({
-            displayName: firstName,
-          });
-          await firebase
-            .firestore()
-            .collection("users")
-            .add({
-              firstName,
-              lastName,
-              dob,
-              gender,
-              aadhar,
-              number,
-              password,
-              uid: createdUserResult.user.uid,
-              email: email,
-            })
-            .then(() => {
-              alert("Ragistered Successfully👍");
-              history.push("/voting");
-            });
-        } catch (error) {
-          setError("error", error);
+      if (isValidPhoneNumber(number)) {
+        const aadharExists = await doesAadharExist(aadhar);
+        if (!aadharExists.length) {
+          try {
+            // const createdUserResult = await firebase.auth().createUser(number);
+            // .createUserWithEmailAndPassword(email, password);
+            // console.log();
+            // await createdUserResult.user.updateProfile({
+            //   displayName: firstName,
+            // });
+            await firebase
+              .firestore()
+              .collection("users")
+              .add({
+                firstName,
+                lastName,
+                dob,
+                gender,
+                aadhar,
+                number,
+                // password,
+                // uid: createdUserResult.user.uid,
+                // email: email,
+              })
+              .then(() => {
+                alert("Ragistered Successfully👍");
+                history.push("/login");
+              });
+          } catch (error) {
+            setError("error", error);
+          }
+        } else {
+          setError("User Exist");
         }
       } else {
-        setError("User Exist");
+        setMsg("Enter Valid Number");
       }
     } else {
       setError("Fields Are Empty");
@@ -94,36 +100,46 @@ function Ragister() {
       <label>Select DOB</label>
       <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
 
-      <label>Enter Gender</label>
-      <input
-        type="text"
-        placeholder="Enter Gender"
-        value={gender}
-        onChange={(e) => setGender(e.target.value)}
-      />
+      <label>Select Gender</label>
+      <div onChange={(e) => setGender(e.target.value)}>
+        <input type="radio" value="Male" name="gender" /> Male
+        <input type="radio" value="Female" name="gender" /> Female
+        <input type="radio" value="Other" name="gender" /> Other
+      </div>
 
       <label>Enter Aadhar Number</label>
       <input
         type="text"
         placeholder="Aadhar Number"
         value={aadhar}
-        onChange={(e) => setAadhar(e.target.value)}
+        onChange={(e) => {
+          setError("");
+          setAadhar(e.target.value);
+          if (e.target.value.length > 12 || e.target.value.length < 12) {
+            setError("Aadhar Should Be 12 Digit");
+          }
+        }}
       />
       <label>Enter Number</label>
-      <input
+      <PhoneInput
+        placeholder="Enter phone number"
+        value={number}
+        onChange={setNumber}
+      />
+      <p>{msg}</p>
+
+      {/* <input
         type="text"
         placeholder="Enter Mobile Number"
         value={number}
-        onChange={(e) => setNumber(e.target.value)}
-      />
-
-      <label>Enter Password</label>
-      <input
-        type="password"
-        placeholder="Enter Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        onChange={(e) => {
+          setError("");
+          setNumber(e.target.value);
+          if (e.target.value.length > 10 || e.target.value.length < 10) {
+            setError("Number Should Be 10 Digit");
+          }
+        }}
+      /> */}
 
       <button className="button2" type="submit">
         Submit

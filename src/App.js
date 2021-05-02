@@ -3,7 +3,6 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import useAuthListener from "./Hooks/use-auth-listener";
 import UserContext from "./Context/user";
-import ProtectedRoute from "./Helpers/protected-route";
 
 const Header = lazy(() => import("./Components/Header"));
 const Index = lazy(() => import("./Components/Index"));
@@ -30,9 +29,9 @@ function App() {
               <Route exact path="/ragister">
                 <Ragister />
               </Route>
-              <ProtectedRoute user={user} path="/voting" exact>
-                <Voting />
-              </ProtectedRoute>
+              <Route exact path="/voting">
+                {user ? <Voting /> : <Login />}
+              </Route>
               <Route exact path="*">
                 <Error />
               </Route>

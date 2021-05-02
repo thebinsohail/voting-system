@@ -1,4 +1,4 @@
-import { firebase } from "../firebase";
+import firebase from "../firebase";
 
 export default async function doesUidExist(uid) {
   const result = await firebase
