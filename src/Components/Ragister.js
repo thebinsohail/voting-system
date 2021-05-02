@@ -7,6 +7,7 @@ import PhoneInput from "react-phone-number-input/input";
 import { isValidPhoneNumber } from "react-phone-number-input";
 
 function Ragister() {
+  console.log('--------- Ragister!!');
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
@@ -31,6 +32,7 @@ function Ragister() {
   }, []);
 
   const handleSubmit = async (e) => {
+    console.log('------- handleSubmit!!');
     e.preventDefault();
     // const email = number + "@gmail.com";
     setError("");
@@ -46,6 +48,7 @@ function Ragister() {
             // await createdUserResult.user.updateProfile({
             //   displayName: firstName,
             // });
+            console.log('------- before firebase call!');
             await firebase
               .firestore()
               .collection("users")
@@ -61,6 +64,7 @@ function Ragister() {
                 // email: email,
               })
               .then(() => {
+                console.log('------ after firebase call success!!');
                 alert("Ragistered Successfully👍");
                 history.push("/login");
               });
