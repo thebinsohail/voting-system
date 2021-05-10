@@ -42,7 +42,7 @@ function Voting() {
                     onClick={async (e) => {
                       e.preventDefault();
                       setError("");
-                      const uid = await firebase.auth().currentUser.uid;
+                      const uid = firebase.auth().currentUser.uid;
                       const om = doesUidExist(uid);
                       if (!(await om).length) {
                         await firebase
@@ -70,6 +70,7 @@ function Voting() {
           );
         })}
       </table>
+
       <label style={{ color: "red", fontSize: "x-large" }}>{error}</label>
     </div>
   );

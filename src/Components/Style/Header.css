@@ -1,12 +1,17 @@
 .navigation {
-  margin: 0px, 20px;
+  width: auto;
+  height: 50px;
+  padding: 10px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-}
-.sequence {
-  display: flex;
+  align-items: center;
+  background-color: black;
+  color: white;
 }
 p {
-  display: inline;
+  display: flex;
+  justify-content: space-around;
 }
+/* .navButton {
+  display: flex;
+} */

@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./Style/Index.css";
-import UserContext from "../Context/user";
 import { Link } from "react-router-dom";
-
+import useAuthListener from "../Hooks/use-auth-listener";
 function Index() {
-  const { user } = useContext(UserContext);
+  const { user } = useAuthListener();
   return (
     <div className="container">
       <img
