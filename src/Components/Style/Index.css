@@ -1,5 +1,28 @@
 .container {
   margin-top: 30px;
+  display: flex;
+}
+@media only screen and (max-width: 600px) {
+  .container {
+    display: block;
+  }
+}
+.left {
+  display: block;
+  flex: 0.4;
+  padding: 1rem;
+}
+.right {
+  flex: 0.6;
+}
+.table {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.left p {
+  font-size: xx-large;
+  font-weight: bolder;
 }
 
 .button1 {

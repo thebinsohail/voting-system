@@ -12,6 +12,7 @@ function Ragister() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
+  const [dob2, setDob2] = useState("");
   const [gender, setGender] = useState("");
   const [aadhar, setAadhar] = useState("");
   const [number, setNumber] = useState("");
@@ -31,50 +32,74 @@ function Ragister() {
     document.title = "Ragister";
   }, []);
 
+  const calculate_age = (dob1) => {
+    const today = new Date();
+    const birthDate = new Date(dob1);
+    let age_now = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age_now--;
+    }
+    console.log(age_now);
+    return age_now;
+  };
+
+  const handleChange_age = (event) => {
+    console.log("DOB:", event.target.value);
+    setDob2(event.target.value);
+    const age_latest = calculate_age(event.target.value);
+    console.log(age_latest);
+    setDob(age_latest);
+  };
+
   const handleSubmit = async (e) => {
-    console.log("------- handleSubmit!!");
     e.preventDefault();
+    console.log("------- handleSubmit!!");
     setError("");
     setMsg("");
     if (!isInvalid) {
-      console.log("Is Valid Phone Number");
-      if (isValidPhoneNumber(number)) {
-        console.log("Yes Valid Phone Number");
-        console.log("Does Aadhar Exist");
-        const aadharExists = await doesAadharExist(aadhar);
-        const numberExists = await doesNumberExist(number);
-        if (!numberExists.length) {
-          if (!aadharExists.length) {
-            console.log("Aadhar Not Exist");
-            try {
-              console.log("------- before firebase call!");
-              await firebase
-                .firestore()
-                .collection("users")
-                .add({
-                  firstName,
-                  lastName,
-                  dob,
-                  gender,
-                  aadhar,
-                  number,
-                })
-                .then(() => {
-                  console.log("------ after firebase call success!!");
-                  alert("Ragistered Successfully👍");
-                  history.push("/login");
-                });
-            } catch (error) {
-              setError("error", error);
+      if (dob > "18") {
+        console.log("Is Valid Phone Number");
+        if (isValidPhoneNumber(number)) {
+          console.log("Yes Valid Phone Number");
+          console.log("Does Aadhar Exist");
+          const aadharExists = await doesAadharExist(aadhar);
+          const numberExists = await doesNumberExist(number);
+          if (!numberExists.length) {
+            if (!aadharExists.length) {
+              console.log("Aadhar Not Exist");
+              try {
+                console.log("------- before firebase call!");
+                await firebase
+                  .firestore()
+                  .collection("users")
+                  .add({
+                    firstName,
+                    lastName,
+                    dob2,
+                    gender,
+                    aadhar,
+                    number,
+                  })
+                  .then(() => {
+                    console.log("------ after firebase call success!!");
+                    alert("Ragistered Successfully👍");
+                    history.push("/login");
+                  });
+              } catch (error) {
+                setError("error", error);
+              }
+            } else {
+              setError("User Exist");
             }
           } else {
-            setError("User Exist");
+            setError("Number Is Already In Use");
           }
         } else {
-          setError("Number Is Already In Use");
+          setMsg("Enter Valid Number");
         }
       } else {
-        setMsg("Enter Valid Number");
+        setError("Under Age");
       }
     } else {
       setError("Fields Are Empty");
@@ -106,8 +131,9 @@ function Ragister() {
       <input
         required
         type="date"
-        value={dob}
-        onChange={(e) => setDob(e.target.value)}
+        name="date_of_birth"
+        defaultValue={dob}
+        onChange={handleChange_age}
       />
 
       <label>Select Gender</label>

@@ -14,15 +14,22 @@ function Header() {
   let name;
   if (users != null) {
     name = users.displayName;
-  } else {
-    console.log("User Not Available");
   }
 
   return (
     <nav className="navigation">
       <div className="left">
-        <Link to="result">
+        <Link to="/">
           <button className="button" type="button">
+            Home
+          </button>
+        </Link>
+        <Link to="result">
+          <button
+            style={{ marginLeft: "10px" }}
+            className="button"
+            type="button"
+          >
             Result
           </button>
         </Link>
