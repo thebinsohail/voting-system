@@ -9,6 +9,7 @@ const Login = lazy(() => import("./Components/Login"));
 const Ragister = lazy(() => import("./Components/Ragister"));
 const Error = lazy(() => import("./Components/Error"));
 const Voting = lazy(() => import("./Components/Voting"));
+const Result = lazy(() => import("./Components/Result"));
 
 function App() {
   const { user } = useAuthListener();
@@ -29,6 +30,9 @@ function App() {
             </Route>
             <Route exact path="/voting">
               {user ? <Voting /> : <Login />}
+            </Route>
+            <Route exact path="/result">
+              <Result />
             </Route>
             <Route exact path="*">
               <Error />

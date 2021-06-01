@@ -23,6 +23,11 @@ function Index() {
           Ragister Youself
         </button>
       </Link>
+      <Link to="result">
+        <button className="button1" type="submit">
+          Result
+        </button>
+      </Link>
     </div>
   );
 }

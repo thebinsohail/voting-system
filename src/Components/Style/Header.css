@@ -3,15 +3,17 @@
   height: 50px;
   padding: 10px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background-color: black;
   color: white;
 }
-p {
+.left {
   display: flex;
-  justify-content: space-around;
+  flex: 0.5;
 }
-/* .navButton {
-  display: flex;
-} */
+.right {
+  flex: 0.5;
+}
+.userName {
+  padding-right: 15px;
+}
