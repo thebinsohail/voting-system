@@ -98,7 +98,7 @@ function Login() {
       <p>
         Don't Have Account?{" "}
         <Link to="/ragister">
-          <b>Ragister Youreself</b>
+          <b>Register Youreself</b>
         </Link>
       </p>
     </form>

@@ -48,7 +48,7 @@ function Index() {
               <tr>
                 <td>5</td>
                 <td>Shahnawaz Khan</td>
-                <td>1900240192</td>
+                <td>1700240079</td>
               </tr>
             </tbody>
           </table>
@@ -69,7 +69,7 @@ function Index() {
 
         <Link to="ragister">
           <button className="button1" type="submit">
-            Ragister Youself
+            Register Youself
           </button>
         </Link>
         <Link to="result">
