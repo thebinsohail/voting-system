@@ -11,7 +11,6 @@ function Result() {
   let fullDate;
 
   useEffect(() => {
-    document.title = "Result";
     console.log("Result useEffect called");
     const today = new Date(),
       date =
@@ -27,6 +26,7 @@ function Result() {
   }, [currentDate]);
 
   useEffect(() => {
+    document.title = "Result";
     async function fetchData() {
       console.log("Result Fetch Data called");
       console.log("Before result firebase called");
