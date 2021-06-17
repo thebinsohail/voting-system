@@ -9,7 +9,9 @@ function Result() {
 
   const { data } = usePartyData();
   let fullDate;
+
   useEffect(() => {
+    document.title = "Result";
     console.log("Result useEffect called");
     const today = new Date(),
       date =

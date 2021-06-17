@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Style/Index.css";
 import { Link } from "react-router-dom";
 import useAuthListener from "../Hooks/use-auth-listener";
 function Index() {
   const { user } = useAuthListener();
+  useEffect(() => {
+    document.title = "Voting System";
+  }, []);
 
   return (
     <div className="container">
