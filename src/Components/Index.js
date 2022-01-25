@@ -35,7 +35,7 @@ function Index() {
               <tr>
                 <td>2</td>
                 <td>Shaikh Muhammad Abdullah</td>
-                <td>1900240191</td>
+                <td>2019-SE-050</td>
               </tr>
               <tr>
                 <td>3</td>

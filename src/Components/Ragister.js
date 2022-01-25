@@ -62,7 +62,7 @@ function Ragister() {
         console.log("Is Valid Phone Number");
         if (isValidPhoneNumber(number)) {
           console.log("Yes Valid Phone Number");
-          console.log("Does Aadhar Exist");
+          console.log("Does CNIC Exist");
           const cnicExists = await doesAadharExist(cnic);
           const numberExists = await doesNumberExist(number);
           if (!numberExists.length) {

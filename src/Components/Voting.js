@@ -56,7 +56,7 @@ function Voting() {
                           .add({ voters: uid });
                         setError("Thank You For Youre Valuable Vote");
                       } else {
-                        setError("You Can't Vote Twise");
+                        setError("You Can't Vote Twice");
                       }
                     }}
                     className="button3"
