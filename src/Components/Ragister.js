@@ -8,13 +8,13 @@ import "react-phone-number-input/style.css";
 import doesNumberExist from "../Services/doesNumberExist";
 
 function Ragister() {
-  console.log("--------- Ragister!!");
+ 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
   const [dob2, setDob2] = useState("");
   const [gender, setGender] = useState("");
-  const [aadhar, setAadhar] = useState("");
+  const [cnic, setAadhar] = useState("");
   const [number, setNumber] = useState("");
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
@@ -25,7 +25,7 @@ function Ragister() {
     lastName === "" ||
     dob === "" ||
     gender === "" ||
-    aadhar === "" ||
+    cnic === "" ||
     number === "";
 
   useEffect(() => {
@@ -63,11 +63,11 @@ function Ragister() {
         if (isValidPhoneNumber(number)) {
           console.log("Yes Valid Phone Number");
           console.log("Does Aadhar Exist");
-          const aadharExists = await doesAadharExist(aadhar);
+          const cnicExists = await doesAadharExist(cnic);
           const numberExists = await doesNumberExist(number);
           if (!numberExists.length) {
-            if (!aadharExists.length) {
-              console.log("Aadhar Not Exist");
+            if (!cnicExists.length) {
+          
               try {
                 console.log("------- before firebase call!");
                 await firebase
@@ -78,12 +78,12 @@ function Ragister() {
                     lastName,
                     dob2,
                     gender,
-                    aadhar,
+                    cnic,
                     number,
                   })
                   .then(() => {
                     console.log("------ after firebase call success!!");
-                    alert("Ragistered Successfully👍");
+                    alert("Registered Successfully👍");
                     history.push("/login");
                   });
               } catch (error) {
@@ -143,17 +143,17 @@ function Ragister() {
         <input required type="radio" value="Other" name="gender" /> Other
       </div>
 
-      <label>Enter Aadhar Number</label>
+      <label> CNIC Number</label>
       <input
         required
         type="text"
-        placeholder="Aadhar Number"
-        value={aadhar}
+        placeholder="CNIC Number"
+        value={cnic}
         onChange={(e) => {
           setError("");
           setAadhar(e.target.value);
           if (e.target.value.length > 12 || e.target.value.length < 12) {
-            setError("Aadhar Should Be 12 Digit");
+            setError("INVALID CNIC");
           }
         }}
       />
@@ -161,7 +161,7 @@ function Ragister() {
       <PhoneInput
         required
         placeholder="Enter phone number"
-        defaultCountry="IN"
+        defaultCountry="PK"
         value={number}
         onChange={setNumber}
       />

@@ -24,9 +24,9 @@ function Login() {
     if (isValidPhoneNumber(number)) {
       console.log("Yes Valid Number");
       try {
-        console.log("Is Valid Aadhar");
+        console.log("Is Valid CNIC");
         const labh = await doesNumberExist(number);
-        console.log("Yes Valid Aadhar");
+        console.log("Yes Valid CNIC");
 
         if (labh.length) {
           console.log("Before Recapcha called");
@@ -84,7 +84,7 @@ function Login() {
       <label>Enter Mobile Number</label>
       <PhoneInput
         placeholder="Enter phone number"
-        defaultCountry="IN"
+        defaultCountry="PK"
         value={number}
         onChange={setNumber}
       />

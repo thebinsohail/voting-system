@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import "./Style/Index.css";
 import { Link } from "react-router-dom";
 import useAuthListener from "../Hooks/use-auth-listener";
@@ -12,8 +12,7 @@ function Index() {
     <div className="container">
       <div className="left">
         <p>
-          Topic Name: An Efficient and Securable Online Voting System Using Web
-          Application
+        Online Voting System Using Web Application
         </p>
         <div className="table">
           <table>
@@ -24,34 +23,29 @@ function Index() {
               <tr>
                 <th>Sr.No</th>
                 <th>Name</th>
-                <th>Enrollment No.</th>
+                <th>Roll No</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>1</td>
-                <td>Om B. Adde</td>
-                <td>1900240192</td>
+                <td>Anas Bin Sohail</td>
+                <td>2019-SE-033</td>
               </tr>
               <tr>
                 <td>2</td>
-                <td>Manthan S. Sakhare</td>
+                <td>Shaikh Muhammad Abdullah</td>
                 <td>1900240191</td>
               </tr>
               <tr>
                 <td>3</td>
-                <td>Vishal P. Pawar</td>
-                <td>1900240193</td>
+                <td>Malik Ansari</td>
+                <td>2019-SE-038</td>
               </tr>
               <tr>
                 <td>4</td>
-                <td>Sahil Chaturkar</td>
-                <td>1800240073</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>Shahnawaz Khan</td>
-                <td>1700240079</td>
+                <td>Mahad Faisal</td>
+                <td>2019-SE-039</td>
               </tr>
             </tbody>
           </table>
@@ -59,10 +53,10 @@ function Index() {
       </div>
       <div className="right">
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/220px-Emblem_of_India.svg.png"
+          src="https://upload.wikimedia.org/wikipedia/en/8/8d/SSUET_Logo.png"
           alt="votinglogo"
         />
-        <h3>Welcome to Aadhaar-Voting</h3>
+        <h3>Welcome to Voting System</h3>
 
         <Link to={user ? "/voting" : "/login"}>
           <button className="button1" type="submit">
